@@ -1,0 +1,20 @@
+When i tried analysing the ICMP packets in data.pcap in each packet only one byte is changing so i tried dumping all these bytes then i found that it's the magical number
+of a GIF file.
+For extracting all these bytes i used a python tool known as scapy.
+I used the below program to extract all the bytes:
+
+from scapy.all import *
+a=rdpcap("data.pcap")
+total=""
+media=open('data.gif','w')
+for i in a[ICMP]:
+	pack=""	
+	if(i[IP].src=="10.136.255.127"):
+		for j in i:
+			pack=pack+str(j)
+		total=total+pack[34]
+print(total)
+media.write(total)
+media.close()
+
+Then after opening the GIF file ai found the flag: flag{we_ride_at_midnight}
