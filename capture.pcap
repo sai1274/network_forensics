@@ -1,0 +1,22 @@
+capture.pcap
+
+
+In this pcap in the statistics i found that all the bytes are being shared in ICMP so i applied them as the filter ICMP and then in the first packet i found the magical
+number of the zip file so i tried extracting all the bytes. For extracting i used a tool known as scapy.
+
+from scapy.all import *
+a=rdpcap("capture.pcap")
+total=''
+for i in a[ICMP]:
+	if (i[IP].src=="192.168.1.200"):
+		data=""
+		for j in i:
+			data=data+str(j)
+		total=total+data[42:]
+print(total)
+
+This is my script i exported the output of the program to the a file and renamed the extenston to zip file.
+I tried to open the file but it's password protected. So i used fcrack zip to unzip the file.
+Password :craccer
+
+Flag: shellmates{icmp_p@yl04d_4in't_us3l3ss_4ft3r_4ll_r1gHt?}
