@@ -1,0 +1,19 @@
+In the bizz.pcap i gone through each and each protocol and in ICMP i found 3 packets in which zip file bytes are being shared in hex form.
+So i extracted them using a python tool scapy
+
+from scapy.all import *
+packets = rdpcap('/home/sai/Tasks/bizz.pcap')
+hexdump = open('bizz.zip', 'w')
+p_no = 1
+total=""
+for i in packets:
+    data = ""
+    if (p_no == 16 or p_no == 449 or p_no == 961):
+        for j in i:
+            data = data+str(j)
+        total = total +data[142:]
+    p_no+=1
+hexdump.write(total.decode("hex"))
+
+In that directory a bizz.zip file will be created on unzipping it we can find a PNG on opening it we can get the flag
+FLAG: inctf{_s0meTim3s_u_h4v3_t0_look_3v3ryWh3r3_cl0s3r_T0_G3T_th3_wh0l3!}
